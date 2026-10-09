@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Benchie</title>
+<meta name="description" content="Rate a bench. Someone has to. The bench rating app.">
+<link rel="icon" href="icon.png">
+<style>
+  :root { --pine: #1f5a3f; --oak: #c8874a; --star: #f2b63b; --birch: #f3f6f1; --birch1: #e8ede5; --ink: #1d2a24; --muted: #5d6b64; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--birch); color: var(--ink); font: 17px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 640px; margin: 0 auto; padding: 48px 20px 80px; }
+  h1 { font-size: 44px; line-height: 1.05; letter-spacing: -0.02em; margin: 24px 0 8px; }
+  h2 { font-size: 22px; margin: 40px 0 8px; }
+  p { margin: 8px 0; }
+  .muted { color: var(--muted); }
+  .mark { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 22px; }
+  .mark img { width: 40px; height: 40px; border-radius: 10px; }
+  .stores { display: flex; gap: 12px; flex-wrap: wrap; margin: 20px 0; }
+  .stores a { display: inline-block; padding: 12px 18px; border-radius: 999px; background: var(--pine); color: var(--birch); text-decoration: none; font-weight: 700; }
+  .stores a.soon { background: var(--birch1); color: var(--muted); pointer-events: none; }
+  footer { margin-top: 60px; color: var(--muted); font-size: 14px; }
+  footer a { color: var(--pine); }
+  @media (prefers-color-scheme: dark) {
+    :root { --birch: #0f1613; --birch1: #1f2a24; --ink: #e8ede5; --muted: #9aa79f; --pine: #7fc9a2; }
+    .stores a { color: #0f1613; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <div class="mark"><img src="icon.png" alt=""> Benchie</div>
+  <h1>Rate a bench.<br>Someone has to.</h1>
+  <p class="muted">The benches of the world, from OpenStreetMap, plus the ones it missed, added by you. Sit on one, check in, give it a score for comfort, view and build. Earn badges. Find the best bench near you. Take this more seriously than it deserves.</p>
+  <div class="stores">
+    <a class="soon" href="#">App Store · soon</a>
+    <a class="soon" href="#">Google Play · soon</a>
+  </div>
+  <h2>Bench of the week</h2>
+  <p class="muted">Near Helsinki, where the first benches are. Drawn every Monday from the week's check-ins and ratings.</p>
+  <img src="week/latest.png" alt="This week's bench" style="width:100%;border-radius:16px;margin:8px 0 4px">
+  <h2>How it works</h2>
+  <p>The map starts from OpenStreetMap, which knows about two million benches. The ones it missed get added by the people sitting on them: stand by a bench the map is missing and tap +. You check in by being within 50 metres of one. Then you rate it. The community average appears on the pin. The best benches get a Benchie Star in person.</p>
+  <h2>Testers by post</h2>
+  <p>Rate a hundred benches and an envelope arrives: a Benchie Star sticker, a tote bag, and a code that makes one bench of your choosing Benchie-starred. Once per person. Your country then has one more starred bench. Most have none.</p>
+  <footer>
+    <p><a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="mailto:hello@benchie.world">hello@benchie.world</a></p>
+    <p>Bench positions © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>, ODbL. Benchie is made in Helsinki by Talecraft.</p>
+  </footer>
+</main>
+</body>
+</html>

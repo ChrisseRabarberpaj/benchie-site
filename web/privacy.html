@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Benchie privacy policy</title>
+<link rel="icon" href="icon.png">
+<style>
+  :root { --pine: #1f5a3f; --birch: #f3f6f1; --ink: #1d2a24; --muted: #5d6b64; }
+  body { margin: 0; background: var(--birch); color: var(--ink); font: 17px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 680px; margin: 0 auto; padding: 48px 20px 80px; }
+  h1 { font-size: 36px; letter-spacing: -0.02em; line-height: 1.1; }
+  h2 { font-size: 20px; margin-top: 32px; }
+  a { color: var(--pine); }
+  .muted { color: var(--muted); font-size: 14px; }
+  table { border-collapse: collapse; width: 100%; font-size: 15px; }
+  td, th { text-align: left; vertical-align: top; padding: 8px 8px 8px 0; border-bottom: 1px solid #d6ddd4; }
+  @media (prefers-color-scheme: dark) { :root { --birch: #0f1613; --ink: #e8ede5; --muted: #9aa79f; --pine: #7fc9a2; } td, th { border-color: #1f2a24; } }
+</style>
+</head>
+<body>
+<main>
+  <p><a href="index.html">Benchie</a></p>
+  <h1>Privacy policy</h1>
+  <p class="muted">Last updated 9 October 2026. Applies to the Benchie app for iOS and Android and to benchie.world.</p>
+
+  <p>Benchie is made by Talecraft, a sole proprietorship registered in Finland, run by Christoffer Linder (the "we" below). We are the data controller. You can reach us at <a href="mailto:hello@benchie.world">hello@benchie.world</a>.</p>
+
+  <h2>The short version</h2>
+  <p>Benchie stores what you do with benches (check-ins, ratings, badges, friends) under an account id. It checks your location once, at the moment you check in, to confirm you are at the bench, and does not store your position or track you. It does not sell data. If you rate a hundred benches and ask for the tester envelope, we use the address you give us once, to post it, and then delete it.</p>
+
+  <h2>What we collect, and why</h2>
+  <table>
+    <tr><th>Data</th><th>Why</th><th>Kept</th></tr>
+    <tr><td>An account id. By default anonymous (no email, no name). If you choose to keep the account, your email address, or the id Apple or Google gives us when you sign in with them.</td><td>So your ratings and badges belong to you and survive a new phone.</td><td>Until you delete the account.</td></tr>
+    <tr><td>A display name you choose, and the badge you wear as your title.</td><td>Shown on leaderboards, on benches you are sitting on, and to friends.</td><td>Until you change or delete it.</td></tr>
+    <tr><td>Check-ins: which bench, when, and the local hour and month.</td><td>The core of the app: counts, badges, leaderboards, "bench of the week".</td><td>Until you delete the account.</td></tr>
+    <tr><td>Ratings: your scores, tags, a short note, the bench.</td><td>They are the product. Ratings are public and attributed to your display name.</td><td>Until you delete them or the account.</td></tr>
+    <tr><td>Bench photos you choose to add (one per rating). Before upload the app shrinks them and removes all metadata, including location and device details.</td><td>Shown on the bench, in share cards, and in "Bench of the week" posts, attributed to your display name.</td><td>Until you remove the photo, the rating, or the account. Two reports from other users hide a photo.</td></tr>
+    <tr><td>The photo you take when you add a bench the map does not have, and where you were standing (it has to be within 30 metres of the bench). Metadata is removed before upload, as with all photos.</td><td>Checked once, automatically, to confirm it shows a bench (see "Who else sees it" below). If it does, it becomes the bench's first photo.</td><td>As long as the bench is on the map, or until you delete your account. Photos that fail the check are deleted straight away.</td></tr>
+    <tr><td>Your location, once, when you tap "I'm here".</td><td>Sent to our server to check you are within 50 metres of the bench. The server answers yes or no and does not store the coordinates.</td><td>Not stored.</td></tr>
+    <tr><td>Presence: that you are on a given bench, for up to two hours after a check-in.</td><td>Only if you turn it on, and only to the audience you choose (everyone, friends, nobody). Never your live position between benches.</td><td>Two hours, or until you leave the bench.</td></tr>
+    <tr><td>Friends: who you added and who added you; your friend code.</td><td>The friends feature.</td><td>Until you remove them or delete the account.</td></tr>
+    <tr><td>Reports you file about a bench (gone, private, duplicate).</td><td>Keeping the map honest.</td><td>Indefinitely, without your identity once handled.</td></tr>
+    <tr><td>Postal address, if you request the tester envelope.</td><td>To post the envelope.</td><td>Deleted once posted, at most 60 days.</td></tr>
+    <tr><td>Technical logs (IP address, device type, app version, errors).</td><td>Keeping the service running and finding bugs.</td><td>30 days.</td></tr>
+  </table>
+
+  <h2>What we do not do</h2>
+  <p>We do not sell personal data. We do not use advertising identifiers to track you across apps. We do not run analytics that profile you. We do not read your contacts. We do not record your location except at the moment of a check-in, and then only to answer "is this person at the bench".</p>
+
+  <h2>Where the data lives</h2>
+  <p>Our database and authentication are run by Supabase, Inc. on servers in the European Union (Ireland). Map tiles are loaded from OpenStreetMap, which sees your IP address and the map areas you look at, as any map does. Sign in with Apple and Google sign-in are handled by Apple and Google under their own policies; we receive an id and, if you allow it, your email address. Photos of benches you add are sent once to Anthropic, an AI provider, to check that they show a bench; only the photo is sent, nothing about you.</p>
+
+  <h2>Who can see what</h2>
+  <p>Public: your display name, worn badge, ratings and the notes and photos on them, your check-in counts and badges, and your position on leaderboards (you can hide yourself from boards in the app; you still count, just not by name). Friends, or everyone if you choose: that you are on a specific bench right now. Only you: your email address. Only us: your postal address while the envelope is being sent, and technical logs.</p>
+
+  <h2>Ads and subscriptions</h2>
+  <p>A future version may show ads to non-subscribers and offer a Benchie Supporter subscription. If and when it does, this policy will be updated first, the ad provider will be named here, and ads will not use your Benchie data for targeting. Subscriptions are handled by Apple and Google; we never see your payment details.</p>
+
+  <h2>Your rights</h2>
+  <p>Under the GDPR you can ask for a copy of your data, correct it, delete it, or object to how we use it. The quickest route: in the app, Profile &gt; Delete account removes everything attributed to you, including your ratings and check-ins, immediately. For anything else, email <a href="mailto:hello@benchie.world">hello@benchie.world</a> and we answer within 30 days. You can also complain to the Finnish Data Protection Ombudsman (tietosuoja.fi).</p>
+
+  <h2>Children</h2>
+  <p>Benchie is not aimed at children under 13 and we do not knowingly collect their data. If you believe a child has made an account, tell us and we will remove it.</p>
+
+  <h2>Changes</h2>
+  <p>If this policy changes in a way that matters, the app will tell you on its next launch before anything new is collected.</p>
+</main>
+</body>
+</html>
