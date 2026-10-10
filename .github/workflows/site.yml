@@ -1,11 +1,15 @@
 # Publishes web/ to GitHub Pages (benchie.world).
 # Every push to main deploys. Every Monday 07:04 Helsinki it first draws the Bench of the week card from live data
 # into web/week, commits it, deploys, then posts it to Instagram when IG_USER_ID / IG_ACCESS_TOKEN exist.
+# Until the very first card exists, an hourly run also tries, so the card appears within the hour of the first check-in
+# or rating anywhere near Helsinki (the homepage hides the section while there is no card). After that, hourly runs do nothing.
 name: site
 on:
   push:
     branches: [main]
-  schedule: [{ cron: '4 4 * * 1' }]   # 04:04 UTC = 07:04 Helsinki in summer, 06:04 in winter
+  schedule:
+    - cron: '4 4 * * 1'    # weekly card: 04:04 UTC = 07:04 Helsinki in summer, 06:04 in winter
+    - cron: '23 * * * *'   # hourly: only while there is no card yet
   workflow_dispatch:
     inputs:
       card: { description: 'Draw a new Bench of the week card first', type: boolean, default: false }
@@ -16,12 +20,18 @@ jobs:
     runs-on: ubuntu-latest
     environment: { name: github-pages, url: '${{ steps.deployment.outputs.page_url }}' }
     env:
-      CARD: ${{ github.event_name == 'schedule' || inputs.card == true }}
       HAVE_IG: ${{ secrets.IG_ACCESS_TOKEN != '' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
+      - id: want
+        run: |
+          if [ "${{ github.event.schedule }}" = "4 4 * * 1" ] || [ "${{ inputs.card }}" = "true" ]; then draw=true
+          elif [ "${{ github.event_name }}" = "schedule" ] && [ ! -f web/week/latest.png ]; then draw=true
+          else draw=false; fi
+          echo "draw=$draw" >> $GITHUB_OUTPUT
+          echo "CARD=$draw" >> $GITHUB_ENV
       - if: ${{ env.CARD == 'true' }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with: { python-version: '3.12' }
       - id: card
         if: ${{ env.CARD == 'true' }}
@@ -41,10 +51,13 @@ jobs:
           git add web/week
           git diff --cached --quiet || git commit -m "Bench of the week: ${{ steps.card.outputs.bench }}"
           git push
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
+      - if: ${{ github.event.schedule != '23 * * * *' || steps.card.outputs.bench != '' }}
+        uses: actions/configure-pages@v5
+      - if: ${{ github.event.schedule != '23 * * * *' || steps.card.outputs.bench != '' }}
+        uses: actions/upload-pages-artifact@v4
         with: { path: web }
       - id: deployment
+        if: ${{ github.event.schedule != '23 * * * *' || steps.card.outputs.bench != '' }}
         uses: actions/deploy-pages@v4
       - name: Instagram
         if: ${{ env.HAVE_IG == 'true' && steps.card.outputs.bench != '' }}
