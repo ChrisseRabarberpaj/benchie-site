@@ -37,9 +37,11 @@
     <a class="soon" href="#">App Store · soon</a>
     <a class="soon" href="#">Google Play · soon</a>
   </div>
+  <section id="week">
   <h2>Bench of the week</h2>
   <p class="muted">Near Helsinki, where the first benches are. Drawn every Monday from the week's check-ins and ratings.</p>
-  <img src="week/latest.png" alt="This week's bench" style="width:100%;border-radius:16px;margin:8px 0 4px">
+  <img src="week/latest.png" alt="This week's bench" style="width:100%;border-radius:16px;margin:8px 0 4px" onerror="document.getElementById('week').remove()">
+  </section>
   <h2>How it works</h2>
   <p>The map starts from OpenStreetMap, which knows about two million benches. The ones it missed get added by the people sitting on them: stand by a bench the map is missing and tap +. You check in by being within 50 metres of one. Then you rate it. The community average appears on the pin. The best benches get a Benchie Star in person.</p>
   <h2>Testers by post</h2>
