@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Benchie</title>
+<style>html,body{margin:0;background:transparent}</style>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=benchieGo&render=explicit" async defer></script>
+<script>
+// Loaded by the Benchie app in a hidden web view the first time it needs an account: Cloudflare Turnstile checks
+// that this is a real phone and the token goes back to the app, which sends it with the anonymous sign-up.
+// Nothing is shown and nothing is stored. Site key is public; the secret lives in Supabase.
+function benchieSend(m) { try { if (window.Benchie) Benchie.postMessage(m); } catch (e) {} }
+function benchieGo() {
+  try {
+    turnstile.render('#t', {
+      sitekey: '0x4AAAAAAFXP0tGRGeo-vAQc',
+      callback: function (t) { benchieSend('ok:' + t); },
+      'error-callback': function (e) { benchieSend('err:' + e); },
+      'expired-callback': function () { benchieSend('err:expired'); },
+      'timeout-callback': function () { benchieSend('err:timeout'); }
+    });
+  } catch (e) { benchieSend('err:' + e); }
+}
+</script>
+</head>
+<body><div id="t"></div></body>
+</html>
