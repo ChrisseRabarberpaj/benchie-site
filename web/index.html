@@ -4,53 +4,181 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Benchie</title>
-<meta name="description" content="Rate a bench. Someone has to. The bench rating app.">
+<meta name="description" content="Rate a bench. Someone has to. 3.5 million benches on the map, rated by the people who sit on them.">
+<meta property="og:title" content="Benchie">
+<meta property="og:description" content="Rate a bench. Someone has to.">
+<meta property="og:image" content="https://benchie.world/img/map.jpg">
 <link rel="icon" href="icon.png">
 <style>
-  :root { --pine: #1f5a3f; --oak: #c8874a; --star: #f2b63b; --birch: #f3f6f1; --birch1: #e8ede5; --ink: #1d2a24; --muted: #5d6b64; }
-  * { box-sizing: border-box; }
-  body { margin: 0; background: var(--birch); color: var(--ink); font: 17px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
-  main { max-width: 640px; margin: 0 auto; padding: 48px 20px 80px; }
-  h1 { font-size: 44px; line-height: 1.05; letter-spacing: -0.02em; margin: 24px 0 8px; }
-  h2 { font-size: 22px; margin: 40px 0 8px; }
-  p { margin: 8px 0; }
-  .muted { color: var(--muted); }
-  .mark { display: flex; align-items: center; gap: 12px; font-weight: 800; font-size: 22px; }
-  .mark img { width: 40px; height: 40px; border-radius: 10px; }
-  .stores { display: flex; gap: 12px; flex-wrap: wrap; margin: 20px 0; }
-  .stores a { display: inline-block; padding: 12px 18px; border-radius: 999px; background: var(--pine); color: var(--birch); text-decoration: none; font-weight: 700; }
-  .stores a.soon { background: var(--birch1); color: var(--muted); pointer-events: none; }
-  footer { margin-top: 60px; color: var(--muted); font-size: 14px; }
-  footer a { color: var(--pine); }
+  @font-face { font-family: "Bricolage"; src: url(fonts/BricolageGrotesque-800.woff2) format("woff2"); font-weight: 800; font-display: swap; }
+  @font-face { font-family: "Figtree"; src: url(fonts/Figtree-400.woff2) format("woff2"); font-weight: 400; font-display: swap; }
+  @font-face { font-family: "Figtree"; src: url(fonts/Figtree-600.woff2) format("woff2"); font-weight: 600; font-display: swap; }
+  @font-face { font-family: "DM Mono"; src: url(fonts/DMMono-500.woff2) format("woff2"); font-weight: 500; font-display: swap; }
+
+  :root {
+    --pine: #1f5a3f; --pine-deep: #16432f; --oak: #c8874a; --star: #f2b63b;
+    --birch: #f3f6f1; --birch1: #e8ede5; --ink: #16211b; --muted: #5f6e65; --line: #d5ddd6;
+    --ground: var(--birch); --card: #ffffff; --text: var(--ink);
+  }
   @media (prefers-color-scheme: dark) {
-    :root { --birch: #0f1613; --birch1: #1f2a24; --ink: #e8ede5; --muted: #9aa79f; --pine: #7fc9a2; }
-    .stores a { color: #0f1613; }
+    :root { --ground: #0f1613; --card: #18221d; --text: #e8ede5; --muted: #9aa79f; --line: #26322b; --birch1: #1f2a24; }
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--ground); color: var(--text); font: 17px/1.55 "Figtree", system-ui, sans-serif; }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+  .kicker { font: 500 12px/1 "DM Mono", ui-monospace, monospace; letter-spacing: .22em; text-transform: uppercase; }
+  h1, h2 { font-family: "Bricolage", system-ui, sans-serif; font-weight: 800; letter-spacing: -.02em; margin: 0; }
+
+  /* hero */
+  .hero { background: var(--pine); color: var(--birch); overflow: hidden; }
+  .hero .wrap { display: grid; grid-template-columns: 1.1fr .9fr; gap: 40px; align-items: center; padding-top: 28px; padding-bottom: 0; }
+  .hero nav { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; }
+  .hero nav img { height: 34px; width: auto; }
+  .hero nav a { font: 500 13px "DM Mono", monospace; letter-spacing: .12em; text-decoration: none; opacity: .8; }
+  .hero h1 { font-size: clamp(46px, 7vw, 84px); line-height: .98; margin: 40px 0 18px; }
+  .hero p { font-size: 20px; max-width: 30ch; color: #d6e4da; margin: 0 0 28px; }
+  .stores { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 64px; }
+  .stores a { padding: 13px 20px; border-radius: 999px; font-weight: 600; text-decoration: none; background: var(--star); color: var(--ink); }
+  .stores a.soon { background: transparent; color: var(--birch); box-shadow: inset 0 0 0 1.5px rgba(243,246,241,.45); pointer-events: none; }
+  .phone { width: 300px; justify-self: center; align-self: end; border-radius: 40px 40px 0 0; border: 10px solid #0e1f17; border-bottom: 0; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,.35); margin-top: 40px; aspect-ratio: 300 / 520; }
+  .phone img { width: 100%; }
+
+  /* steps */
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding: 80px 0 24px; }
+  .step .n { color: var(--oak); }
+  .step h2 { font-size: 30px; margin: 10px 0 6px; }
+  .step p { margin: 0; color: var(--muted); }
+  .shot { margin-top: 22px; border-radius: 22px; overflow: hidden; border: 1px solid var(--line); aspect-ratio: 9 / 13; }
+  .shot img { width: 100%; }
+
+  /* sections */
+  section.band { padding: 72px 0; border-top: 1px solid var(--line); }
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+  .band h2 { font-size: clamp(32px, 4.4vw, 48px); line-height: 1.02; margin: 12px 0 14px; }
+  .band p { color: var(--muted); margin: 0; max-width: 38ch; }
+  .band .kicker { color: var(--pine); }
+  @media (prefers-color-scheme: dark) { .band .kicker { color: #7fc9a2; } }
+
+  .badges { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px 10px; }
+  .badge { text-align: center; font-size: 13px; font-weight: 600; }
+  .badge span { display: grid; place-items: center; width: 84px; height: 84px; margin: 0 auto 8px; border-radius: 50%; background: var(--birch1); }
+  .badge img { width: 60px; height: 60px; }
+  .badge.gold span { box-shadow: 0 0 0 3px var(--star); }
+
+  .week img { width: 100%; border-radius: 18px; border: 1px solid var(--line); }
+  .envelope { display: flex; gap: 28px; align-items: center; }
+  .envelope img { width: 120px; flex: none; }
+
+  footer { border-top: 1px solid var(--line); padding: 36px 0 56px; color: var(--muted); font-size: 14px; }
+  footer .wrap { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+  footer a { color: var(--text); }
+  footer p { margin: 0 0 6px; }
+
+  @media (max-width: 760px) {
+    .hero .wrap { grid-template-columns: 1fr; gap: 0; }
+    .hero h1 { margin-top: 32px; }
+    .stores { margin-bottom: 8px; }
+    .phone { width: 250px; }
+    .steps { grid-template-columns: 1fr; gap: 48px; padding-top: 56px; }
+    .shot { max-width: 300px; margin-left: auto; margin-right: auto; }
+    .split { grid-template-columns: 1fr; gap: 28px; }
+    .badges { grid-template-columns: repeat(4, 1fr); }
+    .badge span { width: 68px; height: 68px; } .badge img { width: 48px; height: 48px; }
+    .envelope { flex-direction: column; align-items: flex-start; }
+    section.band { padding: 56px 0; }
   }
 </style>
 </head>
 <body>
-<main>
-  <div class="mark"><img src="icon.png" alt=""> Benchie</div>
-  <h1>Rate a bench.<br>Someone has to.</h1>
-  <p class="muted">The benches of the world, from OpenStreetMap, plus the ones it missed, added by you. Sit on one, check in, give it a score for comfort, view and build. Earn badges. Find the best bench near you. Take this more seriously than it deserves.</p>
-  <div class="stores">
-    <a class="soon" href="#">App Store · soon</a>
-    <a class="soon" href="#">Google Play · soon</a>
+
+<header class="hero">
+  <div class="wrap">
+    <nav><img src="img/benchie-lockup-reverse.svg" alt="Benchie"><a href="mailto:hello@benchie.world">CONTACT</a></nav>
+    <div>
+      <h1>Rate a bench.<br>Someone has to.</h1>
+      <p>3.5 million benches are on the map. Nobody has rated them yet.</p>
+      <div class="stores">
+        <a class="soon" href="#">App Store · soon</a>
+        <a class="soon" href="#">Google Play · soon</a>
+      </div>
+    </div>
+    <div class="phone"><img src="img/map.jpg" alt="The Benchie map: rated benches along the water in Helsinki"></div>
   </div>
-  <section id="week">
-  <h2>Bench of the week</h2>
-  <p class="muted">Near Helsinki, where the first benches are. Drawn every Monday from the week's check-ins and ratings.</p>
-  <img src="week/latest.png" alt="This week's bench" style="width:100%;border-radius:16px;margin:8px 0 4px" onerror="document.getElementById('week').remove()">
+</header>
+
+<main class="wrap">
+  <div class="steps">
+    <div class="step">
+      <div class="kicker n">01</div>
+      <h2>Sit.</h2>
+      <p>Find a bench and sit on it. The app checks you are really there.</p>
+      <div class="shot"><img src="img/sheet.jpg" alt="A bench card with its scores"></div>
+    </div>
+    <div class="step">
+      <div class="kicker n">02</div>
+      <h2>Rate.</h2>
+      <p>Comfort, view, build. One to five stars each.</p>
+      <div class="shot"><img src="img/rate.jpg" alt="Rating a bench's comfort"></div>
+    </div>
+    <div class="step">
+      <div class="kicker n">03</div>
+      <h2>Collect.</h2>
+      <p>Badges, titles and your town's leaderboard.</p>
+      <div class="shot"><img src="img/profile.jpg" alt="A profile with badges"></div>
+    </div>
+  </div>
+
+  <section class="band split">
+    <div>
+      <div class="kicker">Be first</div>
+      <h2>Founder of your town. For good.</h2>
+      <p>The first person to rate a bench in a town keeps the Founder badge forever. Most towns are still open.</p>
+    </div>
+    <div class="badges">
+      <div class="badge gold"><span><img src="badges/founder.svg" alt=""></span>Founder</div>
+      <div class="badge gold"><span><img src="badges/zero.svg" alt=""></span>Bench Zero</div>
+      <div class="badge gold"><span><img src="badges/pioneer.svg" alt=""></span>Pioneer</div>
+      <div class="badge gold"><span><img src="badges/god.svg" alt=""></span>Bench God</div>
+      <div class="badge"><span><img src="badges/sitter.svg" alt=""></span>Sitter</div>
+      <div class="badge"><span><img src="badges/early.svg" alt=""></span>Early Bird</div>
+      <div class="badge"><span><img src="badges/snow.svg" alt=""></span>Snow Sitter</div>
+      <div class="badge"><span><img src="badges/connoisseur.svg" alt=""></span>Connoisseur</div>
+    </div>
   </section>
-  <h2>How it works</h2>
-  <p>Three and a half million benches are already on the map, from OpenStreetMap. If one is missing, stand next to it and tap +.</p>
-  <p>To rate a bench you have to be at it: the app checks that you are within 50 metres. Comfort, view and build, one to five stars each. The average goes on the map for everyone who comes after you, and the very best end up with a Benchie Star.</p>
-  <h2>A hundred benches, one envelope</h2>
-  <p>Rate a hundred benches and we post you an envelope: a Benchie Star sticker and a code. Use the code on the bench you think deserves it most, and that bench is Benchie-starred on the map for good. One per person. Most countries do not have a single starred bench yet.</p>
-  <footer>
-    <p><a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="mailto:hello@benchie.world">hello@benchie.world</a></p>
-    <p>Bench positions © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>, ODbL. Benchie is made in Helsinki by Talecraft.</p>
-  </footer>
+
+  <section class="band split week" id="week">
+    <div>
+      <div class="kicker">Every Monday</div>
+      <h2>Bench of the week.</h2>
+      <p>The best-loved bench near Helsinki, picked from the week's check-ins and ratings.</p>
+    </div>
+    <img src="week/latest.png" alt="This week's bench" onerror="document.getElementById('week').remove()">
+  </section>
+
+  <section class="band">
+    <div class="envelope">
+      <img src="img/benchie-star-badge.svg" alt="The Benchie Star">
+      <div>
+        <div class="kicker">100 benches</div>
+        <h2>Rate a hundred. Get post.</h2>
+        <p>A Benchie Star sticker and a code to star the bench you love most. One per person.</p>
+      </div>
+    </div>
+  </section>
 </main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <p><a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="mailto:hello@benchie.world">hello@benchie.world</a></p>
+      <p>Bench positions © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>, ODbL.</p>
+    </div>
+    <p>Made in Helsinki by Talecraft.</p>
+  </div>
+</footer>
+
 </body>
 </html>
