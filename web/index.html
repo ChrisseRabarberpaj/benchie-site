@@ -68,6 +68,7 @@
   .badge img { width: 60px; height: 60px; }
   .badge.gold span { box-shadow: 0 0 0 3px var(--star); }
 
+  .board .shot { max-width: 320px; margin: 0 auto; width: 100%; }
   .week img { width: 100%; border-radius: 18px; border: 1px solid var(--line); }
   .envelope { display: flex; gap: 28px; align-items: center; }
   .envelope img { width: 120px; flex: none; }
@@ -99,7 +100,7 @@
     <nav><img src="img/benchie-lockup-reverse.svg" alt="Benchie"><a href="mailto:hello@benchie.world">CONTACT</a></nav>
     <div>
       <h1>Rate a bench.<br>Someone has to.</h1>
-      <p>3.5 million benches are on the map. Nobody has rated them yet.</p>
+      <p>3.5 million benches are on the map. Hardly any of them are rated yet.</p>
       <div class="stores">
         <a class="soon" href="#">App Store · soon</a>
         <a class="soon" href="#">Google Play · soon</a>
@@ -131,6 +132,15 @@
     </div>
   </div>
 
+  <section class="band split board">
+    <div>
+      <div class="kicker">Leaderboards</div>
+      <h2>May the best bench win.</h2>
+      <p>The best benches in your town, your country and the world get a podium. So do the people who sit on the most of them.</p>
+    </div>
+    <div class="shot"><img src="img/board.jpg" alt="Top benches in Helsinki, with the top three on a podium"></div>
+  </section>
+
   <section class="band split">
     <div>
       <div class="kicker">Be first</div>
@@ -153,7 +163,7 @@
     <div>
       <div class="kicker">Every Monday</div>
       <h2>Bench of the week.</h2>
-      <p>The best-loved bench near Helsinki, picked from the week's check-ins and ratings.</p>
+      <p>In the app it's the best-loved bench near you, picked from the week's check-ins and ratings. This week near Helsinki:</p>
     </div>
     <img src="week/latest.png" alt="This week's bench" onerror="document.getElementById('week').remove()">
   </section>
