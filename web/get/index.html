@@ -23,7 +23,8 @@
     var ios = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
     var android = /Android/.test(ua);
     var s = ios ? STORES.ios : android ? STORES.android : null;
-    if (s && s.live && s.url && !/[?&]stay\b/.test(location.search)) location.replace(s.url);
+    // A friend's invite (?c=CODE) stays here, so the code is seen and copied on the way to the store.
+    if (s && s.live && s.url && !/[?&](stay|c=)/.test(location.search)) location.replace(s.url);
   })();
 </script>
 <style>
@@ -50,6 +51,12 @@
   .stores { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
   .stores a { padding: 14px 22px; border-radius: 999px; font-weight: 600; text-decoration: none; background: var(--star); color: var(--ink); min-width: 170px; }
   .stores a.soon { background: transparent; color: var(--birch); box-shadow: inset 0 0 0 1.5px rgba(243,246,241,.45); pointer-events: none; }
+  .friend { display: none; background: rgba(243,246,241,.08); border-radius: 20px; padding: 18px 20px 20px; margin: 0 auto 26px; max-width: 360px; }
+  .friend .kicker { margin-bottom: 10px; }
+  .friend .code { font: 500 30px/1.2 "DM Mono", ui-monospace, monospace; letter-spacing: .16em; color: var(--birch); margin: 0 0 8px; }
+  .friend p { font-size: 15px; margin: 0 auto 14px; color: #d6e4da; }
+  .friend button { font: 600 15px "Figtree", system-ui, sans-serif; color: var(--birch); background: transparent; border: 0;
+                   box-shadow: inset 0 0 0 1.5px rgba(243,246,241,.45); border-radius: 999px; padding: 10px 20px; cursor: pointer; }
   .note { font-size: 15px; color: #b9cdc0; margin-top: 30px; }
   footer { padding: 20px 0 28px; font-size: 13px; color: #b9cdc0; text-align: center; }
 </style>
@@ -62,6 +69,12 @@
     <p class="kicker">Get Benchie</p>
     <h1>Rate a bench.<br>Someone has to.</h1>
     <p>Sit, rate it for comfort, view and build, and see how it stacks up against every other bench in town.</p>
+    <div class="friend" id="friend">
+      <p class="kicker">A friend invited you</p>
+      <div class="code" id="code"></div>
+      <p>Get the app, go to Social, tap Friends and type in this code. You are friends straight away.</p>
+      <button type="button" id="copy">Copy the code</button>
+    </div>
     <div class="stores">
       <a id="ios" class="soon" href="#">App Store · soon</a>
       <a id="android" class="soon" href="#">Google Play · soon</a>
@@ -71,6 +84,17 @@
 </main>
 <footer><a href="../">benchie.world</a> · <a href="../privacy.html">Privacy</a></footer>
 <script>
+  var code = (location.search.match(/[?&]c=([A-Za-z0-9]{4,8})\b/) || [])[1];
+  if (code) {
+    code = code.toUpperCase();
+    document.getElementById('friend').style.display = 'block';
+    document.getElementById('code').textContent = code;
+    document.querySelector('.note').style.display = 'none';
+    var copy = function () { try { navigator.clipboard.writeText(code); } catch (e) {} };
+    document.getElementById('copy').onclick = function () { copy(); this.textContent = 'Copied'; };
+    // Tapping a store button copies the code on the way, so it is ready to paste in the app.
+    ['ios', 'android'].forEach(function (id) { document.getElementById(id).addEventListener('click', copy); });
+  }
   [['ios', 'App Store'], ['android', 'Google Play']].forEach(function (p) {
     var s = STORES[p[0]], a = document.getElementById(p[0]);
     if (s.live && s.url) { a.href = s.url; a.className = ''; a.textContent = p[1]; }
