@@ -16,7 +16,7 @@
   // and set live to true for each store as it opens.
   var STORES = {
     ios: { url: '', live: false },
-    android: { url: 'https://play.google.com/store/apps/details?id=app.benchie', live: false }
+    android: { url: 'https://play.google.com/store/apps/details?id=app.benchie', live: true }
   };
   (function () {
     var ua = navigator.userAgent || '';
@@ -77,7 +77,7 @@
     </div>
     <div class="stores">
       <a id="ios" class="soon" href="#">App Store · soon</a>
-      <a id="android" class="soon" href="#">Google Play · soon</a>
+      <a id="android" href="https://play.google.com/store/apps/details?id=app.benchie">Google Play</a>
     </div>
     <p class="note">Found this on a bench? Someone who has rated a hundred benches decided this one deserves a Benchie Star.</p>
   </div>
